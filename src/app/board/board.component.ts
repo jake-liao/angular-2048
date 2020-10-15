@@ -43,7 +43,6 @@ export class BoardComponent implements OnInit {
       output.push(this.grid[pos - counter]);
     }
     output = this.removeZeros(output);
-    console.log(output);
     return output;
   }
 
@@ -60,9 +59,9 @@ export class BoardComponent implements OnInit {
   }
 
   rightShift() {
-    var buffer,
+    var buffer = [],
       output = [];
-    var pos, bufferPos, diff;
+    var pos: number, bufferPos: number, outputPos: number;
     for (pos = 3; pos < 16; pos += 4) {
       buffer = this.extractRowRight(pos);
       for (bufferPos = 0; bufferPos < buffer.length; bufferPos++) {
@@ -73,11 +72,12 @@ export class BoardComponent implements OnInit {
           output.push(buffer[bufferPos]);
         }
       }
+      while (output.length != 4) {
+        output.push(0);
+      }
+      for (outputPos = pos - 3; outputPos <= pos; outputPos++) {
+        this.grid[outputPos] = output.pop();
+      }
     }
-    while (output.length != 4){
-      output.push(0);
-    }
-    
-    console.log(output);
   }
 }
