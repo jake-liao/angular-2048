@@ -42,6 +42,7 @@ export class BoardComponent implements OnInit {
     for (var counter = 0; counter <= 3; counter++) {
       output.push(this.grid[pos - counter]);
     }
+    output = this.removeZeros(output);
     console.log(output);
     return output;
   }
@@ -51,42 +52,32 @@ export class BoardComponent implements OnInit {
   removeZeros(array: number[]) {
     var output = [];
     for (var counter = 0; counter <= 3; counter++) {
-      output.push(array[pos - counter]);
+      if (array[counter] != 0) {
+        output.push(array[counter]);
+      }
     }
-    console.log(output);
     return output;
   }
 
   rightShift() {
-    var buffer = [];
-    var row, cursor1, cursor2, bufferPos;
-    for (row = 3; row < 16; row += 4) {
-      console.log(row);
-      cursor1 = row;
-      while (cursor1 > row - 3) {
-        cursor2 = cursor1 - 1;
-        while (cursor2 >= row - 3) {
-          if (this.grid[cursor1] == this.grid[cursor2]) {
-            buffer.push(this.grid[cursor2] * 2);
-            cursor1 -= 2;
-            cursor2 -= 2;
-          } else if (this.grid[cursor1] != this.grid[cursor2]) {
-            buffer.push(this.grid[cursor1]);
-            buffer.push(this.grid[cursor2]);
-            cursor1 -= 2;
-            cursor2 -= 2;
-          } else {
-            buffer.push(0);
-            cursor1--;
-            cursor2--;
-          }
-          console.log(buffer);
+    var buffer,
+      output = [];
+    var pos, bufferPos, diff;
+    for (pos = 3; pos < 16; pos += 4) {
+      buffer = this.extractRowRight(pos);
+      for (bufferPos = 0; bufferPos < buffer.length; bufferPos++) {
+        if (buffer[bufferPos] == buffer[bufferPos + 1]) {
+          output.push(buffer[bufferPos] * 2);
+          bufferPos++;
+        } else {
+          output.push(buffer[bufferPos]);
         }
       }
-      for (bufferPos = 0; bufferPos <= 3; bufferPos++) {
-        this.grid[row - bufferPos] = buffer[bufferPos];
-        buffer[bufferPos] = 0;
-      }
     }
+    while (output.length != 4){
+      output.push(0);
+    }
+    
+    console.log(output);
   }
 }
