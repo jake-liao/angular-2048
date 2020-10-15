@@ -1,0 +1,21 @@
+<div>
+	Score:{{score}}
+</div>
+<div>
+	Best:{{best}}
+</div>
+<div>
+	<form>
+		<button (click)="newGame()">New Game</button>
+		<button (click)="dummyInject()">Inject Dummy</button>
+		<button (click)="rightShift()">Right Shift</button>
+		<button (click)="extractRowRight(3)">Extract Row Right</button>
+	</form>
+	<!-- <button (click)="dummyInject(getElementById('a').value, 2)"> </button> -->
+</div>
+
+<main>
+	<p *ngFor="let val of grid; let i = index">
+		{{val}}
+	</p>
+</main>
